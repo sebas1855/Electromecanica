@@ -1,88 +1,70 @@
-const semestres = [
+const materias = [
   {
-    nombre: "Semestre 1", color: "rojo", materias: [
-      "Física I", "Álgebra I", "Cálculo I", "Dibujo Técnico", "Química General"
-    ]
+    id: "fisica1",
+    nombre: "Física I",
+    requisitos: [],
+    semestre: 1,
+    color: "rojo"
   },
   {
-    nombre: "Semestre 2", color: "azul", materias: [
-      "Física II", "Cálculo II", "Álgebra II", "Métodos Numéricos I", "Dibujo Mecánico"
-    ]
+    id: "fisica2",
+    nombre: "Física II",
+    requisitos: ["fisica1"],
+    semestre: 2,
+    color: "azul"
   },
   {
-    nombre: "Semestre 3", color: "rojo", materias: [
-      "Física III", "Ecuaciones Diferenciales I", "Variable Compleja", "Mecánica Técnica",
-      "Mecánica de Fluidos I", "Termodinámica Técnica"
-    ]
+    id: "fisica3",
+    nombre: "Física III",
+    requisitos: ["fisica2"],
+    semestre: 3,
+    color: "rojo"
   },
   {
-    nombre: "Semestre 4", color: "azul", materias: [
-      "Circuitos Eléctricos I", "Electrónica I", "Transformadas Integrales",
-      "Mecánica de Fabricación", "Mecánica de Materiales I"
-    ]
-  },
-  {
-    nombre: "Semestre 5", color: "rojo", materias: [
-      "Circuitos Eléctricos II", "Control de la Calidad", "Transferencia de Calor",
-      "Máquinas Hidráulicas y Neumáticas", "Elementos de Máquinas I", "Instalaciones Electromecánicas"
-    ]
-  },
-  {
-    nombre: "Semestre 6", color: "azul", materias: [
-      "Sistemas de Control I", "Máquinas Eléctricas I", "Mediciones Eléctricas",
-      "Elementos de Máquinas II", "Máquinas Térmicas I",
-      "Electiva 1 (Sociales, Humanísticas y Complementarias)",
-      "Costos Industriales", "Organización Industrial y Presupuestos"
-    ]
-  },
-  {
-    nombre: "Semestre 7", color: "rojo", materias: [
-      "Electrónica Digital I", "Sistemas de Control II", "Máquinas Eléctricas II",
-      "Instalaciones Eléctricas II", "Máquinas Térmicas II",
-      "Electiva 2 (Especialidad: Ingeniería Eléctrica)",
-      "Líneas de Transmisión", "Electrónica de Potencia II", "Sistemas de Distribución"
-    ]
-  },
-  {
-    nombre: "Semestre 8", color: "azul", materias: [
-      "Automática I", "Preparación y Evaluación de Proyectos",
-      "Ingeniería de Mantenimiento", "Refrigeración y Aire Acondicionado",
-      "Prácticas en la Industria I", "Ingeniería Automotriz"
-    ]
-  },
-  {
-    nombre: "Semestre 9", color: "blanco", materias: [
-      "Centrales Eléctricas", "Subestaciones Eléctricas", "Máquinas de Elevación y Transporte",
-      "Prácticas en la Industria II", "Graduación I",
-      "Electiva 3 (Especialidad: Ingeniería Mecánica)",
-      "Diseño de Máquinas", "Automatización Hidráulica y Neumática",
-      "Manufactura Integrada por Computadora", "Mantenimiento Predictivo", "Tribología"
-    ]
-  },
-  {
-    nombre: "Semestre 10", color: "blanco", materias: [
-      "Graduación II"
-    ]
+    id: "mecanica_fluidos",
+    nombre: "Mecánica de Fluidos I",
+    requisitos: ["fisica2"],
+    semestre: 3,
+    color: "rojo"
   }
 ];
 
-// Crear los elementos en HTML
-const contenedor = document.getElementById("malla");
+const grid = document.getElementById("malla");
 
-semestres.forEach((sem, i) => {
-  const div = document.createElement("div");
-  div.className = `semestre ${sem.color}`;
-  div.innerHTML = `
-    <strong>${sem.nombre}</strong>
-    <div class="materias" id="materias${i}">
-      <ul>${sem.materias.map(m => `<li>${m}</li>`).join("")}</ul>
-    </div>
-  `;
-
-  div.addEventListener("click", () => {
-    const lista = document.getElementById(`materias${i}`);
-    lista.style.display = lista.style.display === "block" ? "none" : "block";
+function crearMalla() {
+  const semestresUnicos = [...new Set(materias.map(m => m.semestre))];
+  semestresUnicos.forEach(sem => {
+    const div = document.createElement("div");
+    div.className = `semestre ${materias.find(m => m.semestre === sem).color}`;
+    div.innerHTML = `<strong>Semestre ${sem}</strong><div class="materias" id="sem${sem}"></div>`;
+    grid.appendChild(div);
   });
 
-  contenedor.appendChild(div);
-});
+  materias.forEach(m => {
+    const btn = document.createElement("button");
+    btn.textContent = m.nombre;
+    btn.className = "materia-btn";
+    btn.dataset.id = m.id;
+
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".materia-btn").forEach(b => {
+        if (b.dataset.dependeDe === m.id) {
+          b.classList.add("resaltado");
+        }
+      });
+    });
+
+    const container = document.getElementById(`sem${m.semestre}`);
+    container.appendChild(btn);
+  });
+
+  // Marcar qué botones dependen de quién
+  materias.forEach(m => {
+    m.requisitos.forEach(req => {
+      const boton = document.querySelector(`.materia-btn[data-id="${m.id}"]`);
+      if (boton) boton.dataset.dependeDe = req;
+    });
+  });
+}
+
+crearMalla();
