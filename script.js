@@ -1,5 +1,5 @@
 const materias = [
-  // (👇 Aquí está todo el bloque de materias hasta semestre 10, corregido)
+  // ( Aquí está todo el bloque de materias hasta semestre 10, corregido)
   { id: "fis1", nombre: "Física I", requisitos: [], semestre: 1, color: "rojo" },
   { id: "alg1", nombre: "Álgebra I", requisitos: [], semestre: 1, color: "rojo" },
   { id: "cal1", nombre: "Cálculo I", requisitos: [], semestre: 1, color: "rojo" },
