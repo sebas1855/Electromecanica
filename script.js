@@ -68,3 +68,5 @@ function crearMalla() {
 }
 
 crearMalla();
+btn.classList.add("aprobada");
+btn.disabled = true;
