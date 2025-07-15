@@ -42,7 +42,7 @@ const materias = [
   { id: "medic", nombre: "Mediciones Eléctricas", requisitos: ["circ2"], semestre: 6, color: "azul" },
   { id: "elemMaq2", nombre: "Elementos de Máquinas II", requisitos: ["elemMaq1"], semestre: 6, color: "azul" },
   { id: "maqTerm1", nombre: "Máquinas Térmicas I", requisitos: ["transfCalor"], semestre: 6, color: "azul" },
-  { id: "electiva1", nombre: "Electiva 1 (Sociales / Humanísticas)", requisitos: [], semestre: 6, color: "azul" },
+  { id: "electiva1", nombre: "Electiva 1 (Sociales)", requisitos: [], semestre: 6, color: "azul" },
   { id: "costos", nombre: "Costos Industriales", requisitos: ["electiva1"], semestre: 6, color: "azul" },
   { id: "orgInd", nombre: "Organización Industrial y Presupuestos", requisitos: ["electiva1"], semestre: 6, color: "azul" },
 
@@ -52,7 +52,7 @@ const materias = [
   { id: "maqElec2", nombre: "Máquinas Eléctricas II", requisitos: ["maqElec1"], semestre: 7, color: "rojo" },
   { id: "instElect2", nombre: "Instalaciones Eléctricas II", requisitos: ["instElectro"], semestre: 7, color: "rojo" },
   { id: "maqTerm2", nombre: "Máquinas Térmicas II", requisitos: ["maqTerm1"], semestre: 7, color: "rojo" },
-  { id: "electiva2", nombre: "Electiva 2 (Especialidad Ing. Eléctrica)", requisitos: ["instElectro"], semestre: 7, color: "rojo" },
+  { id: "electiva2", nombre: "Electiva 2 (Especialidad Eléctrica)", requisitos: ["instElectro"], semestre: 7, color: "rojo" },
   { id: "lineas", nombre: "Líneas de Transmisión", requisitos: ["maqElec2"], semestre: 7, color: "rojo" },
   { id: "potencia2", nombre: "Electrónica de Potencia II", requisitos: ["elec1"], semestre: 7, color: "rojo" },
   { id: "dist", nombre: "Sistemas de Distribución", requisitos: ["instElect2"], semestre: 7, color: "rojo" },
@@ -71,7 +71,7 @@ const materias = [
   { id: "elev", nombre: "Máquinas de Elevación y Transporte", requisitos: ["mecFab"], semestre: 9, color: "blanco" },
   { id: "pract2", nombre: "Prácticas en la Industria II", requisitos: ["pract1"], semestre: 9, color: "blanco" },
   { id: "grad1", nombre: "Graduación I", requisitos: ["orgInd"], semestre: 9, color: "blanco" },
-  { id: "electiva3", nombre: "Electiva 3 (Especialidad Ing. Mecánica)", requisitos: ["elev"], semestre: 9, color: "blanco" },
+  { id: "electiva3", nombre: "Electiva 3 (Especialidad Mecánica)", requisitos: ["elev"], semestre: 9, color: "blanco" },
   { id: "disMaq", nombre: "Diseño de Máquinas", requisitos: ["mant"], semestre: 9, color: "blanco" },
   { id: "autoHid", nombre: "Automatización Hidráulica y Neumática", requisitos: ["elec1"], semestre: 9, color: "blanco" },
   { id: "manComp", nombre: "Manufactura Integrada por Computadora", requisitos: ["mant"], semestre: 9, color: "blanco" },
@@ -82,10 +82,11 @@ const materias = [
   { id: "grad2", nombre: "Graduación II", requisitos: ["grad1"], semestre: 10, color: "blanco" }
 ];
 
-// Interacción
+// 🧠 Lógica dinámica
 let aprobadas = [];
 const contenedor = document.getElementById("malla");
 
+// Crear los bloques de semestre
 const semestresUnicos = [...new Set(materias.map(m => m.semestre))];
 semestresUnicos.forEach(sem => {
   const bloque = document.createElement("div");
@@ -94,6 +95,7 @@ semestresUnicos.forEach(sem => {
   contenedor.appendChild(bloque);
 });
 
+// Crear los botones de materias
 materias.forEach(m => {
   const btn = document.createElement("button");
   btn.textContent = m.nombre;
@@ -102,6 +104,7 @@ materias.forEach(m => {
 
   btn.addEventListener("click", () => {
     if (btn.classList.contains("bloqueada")) return;
+
     btn.classList.add("aprobada");
     btn.disabled = true;
     aprobadas.push(m.id);
@@ -119,8 +122,10 @@ materias.forEach(m => {
   document.getElementById(`sem${m.semestre}`).appendChild(btn);
 });
 
+// Desbloquear materias sin requisitos
 materias.forEach(m => {
   if (m.requisitos.length === 0) {
     document.getElementById(m.id).classList.remove("bloqueada");
   }
 });
+
