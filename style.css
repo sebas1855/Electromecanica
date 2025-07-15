@@ -7,7 +7,14 @@ body {
 
 h1 {
   color: #333;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+}
+
+#progreso {
+  font-weight: bold;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #2c3e50;
 }
 
 .grid {
@@ -65,4 +72,14 @@ h1 {
 
 .materia-btn:not(.bloqueada):hover {
   background-color: #dcdcdc;
+}
+
+button[onclick^='reiniciarProgreso'] {
+  padding: 10px 15px;
+  border: none;
+  background-color: #f39c12;
+  color: white;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
 }
