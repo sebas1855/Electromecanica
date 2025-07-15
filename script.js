@@ -73,14 +73,45 @@ const materias = [
   { id: "grad2", nombre: "Graduación II", requisitos: ["grad1"], semestre: 10, color: "blanco" }
 ];
 
+//  Asegúrate de que este bloque comience con todas las materias como en la versión corregida
+// Aquí asumimos que ya lo tienes completo con 10 semestres y dependencias actualizadas
+
 let aprobadas = JSON.parse(localStorage.getItem("materias_aprobadas")) || [];
 
 const contenedor = document.getElementById("malla");
 const progresoBox = document.getElementById("progreso");
 
 function actualizarProgreso() {
-  const porcentaje = Math.floor((aprobadas.length / materias.length) * 100);
-  progresoBox.textContent = `Progreso: ${aprobadas.length} de ${materias.length} materias aprobadas (${porcentaje}%)`;
+  const electivaGrupos = {
+    electiva1: false,
+    electiva2: false,
+    electiva3: false
+  };
+
+  const unicas = new Set();
+
+  materias.forEach(m => {
+    if (aprobadas.includes(m.id)) {
+      if (m.id.includes("electiva1") && !electivaGrupos.electiva1) {
+        electivaGrupos.electiva1 = true;
+        unicas.add("electiva1");
+      } else if (m.id.includes("electiva2") && !electivaGrupos.electiva2) {
+        electivaGrupos.electiva2 = true;
+        unicas.add("electiva2");
+      } else if (m.id.includes("electiva3") && !electivaGrupos.electiva3) {
+        electivaGrupos.electiva3 = true;
+        unicas.add("electiva3");
+      } else if (!m.id.startsWith("electiva")) {
+        unicas.add(m.id);
+      }
+    }
+  });
+
+  const totalSinElectivas = materias.filter(m => !m.id.startsWith("electiva")).length + 3;
+  const progreso = unicas.size;
+  const porcentaje = Math.floor((progreso / totalSinElectivas) * 100);
+
+  progresoBox.textContent = `Progreso: ${progreso} de ${totalSinElectivas} materias aprobadas (${porcentaje}%)`;
 
   if (porcentaje >= 75) {
     const pract1Btn = document.getElementById("pract1");
@@ -88,6 +119,7 @@ function actualizarProgreso() {
   }
 }
 
+// Crear contenedores por semestre
 const semestresUnicos = [...new Set(materias.map(m => m.semestre))];
 semestresUnicos.forEach(sem => {
   const bloque = document.createElement("div");
@@ -96,6 +128,7 @@ semestresUnicos.forEach(sem => {
   contenedor.appendChild(bloque);
 });
 
+// Crear botones por materia
 materias.forEach(m => {
   const btn = document.createElement("button");
   btn.textContent = m.nombre;
@@ -144,6 +177,7 @@ materias.forEach(m => {
   document.getElementById(`sem${m.semestre}`).appendChild(btn);
 });
 
+// Desbloquear materias sin requisitos o con 75%
 materias.forEach(m => {
   if (m.requisitos.length === 0 || m.requisitos.includes("75porciento")) {
     const btn = document.getElementById(m.id);
@@ -156,6 +190,7 @@ materias.forEach(m => {
   }
 });
 
+// Restaurar estado aprobado
 aprobadas.forEach(id => {
   const btn = document.getElementById(id);
   if (btn) {
@@ -175,9 +210,11 @@ aprobadas.forEach(id => {
 
 actualizarProgreso();
 
+// Reiniciar progreso
 function reiniciarProgreso() {
   if (confirm("¿Seguro que quieres reiniciar tu progreso?")) {
     localStorage.clear();
     location.reload();
   }
 }
+
