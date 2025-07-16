@@ -1,5 +1,4 @@
 const materias = [
-  // ( Aquí está todo el bloque de materias hasta semestre 10, corregido)
   { id: "fis1", nombre: "Física I", requisitos: [], semestre: 1, color: "rojo" },
   { id: "alg1", nombre: "Álgebra I", requisitos: [], semestre: 1, color: "rojo" },
   { id: "cal1", nombre: "Cálculo I", requisitos: [], semestre: 1, color: "rojo" },
@@ -39,7 +38,7 @@ const materias = [
   { id: "maqTerm1", nombre: "Máquinas Térmicas I", requisitos: ["transfCalor"], semestre: 6, color: "azul" },
   { id: "electiva1", nombre: "Electiva 1 (Sociales)", requisitos: [], semestre: 6, color: "azul" },
   { id: "costos", nombre: "Costos Industriales", requisitos: ["electiva1"], semestre: 6, color: "azul" },
-  { id: "orgInd", nombre: "Organización Industrial y Presupuestos", requisitos: ["electiva1"], semestre: 6, color: "azul" },
+  { id: "orgInd", nombre: "Organización Industrial", requisitos: ["electiva1"], semestre: 6, color: "azul" },
 
   { id: "elecDig", nombre: "Electrónica Digital I", requisitos: ["maqElec1"], semestre: 7, color: "rojo" },
   { id: "ctrl2", nombre: "Sistemas de Control II", requisitos: ["ctrl1"], semestre: 7, color: "rojo" },
@@ -72,6 +71,8 @@ const materias = [
 
   { id: "grad2", nombre: "Graduación II", requisitos: ["grad1"], semestre: 10, color: "blanco" }
 ];
+
+
 
 //  Asegúrate de que este bloque comience con todas las materias como en la versión corregida
 // Aquí asumimos que ya lo tienes completo con 10 semestres y dependencias actualizadas
