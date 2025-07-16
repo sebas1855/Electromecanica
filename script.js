@@ -19,7 +19,7 @@ const materias = [
   { id: "mecFlu", nombre: "Mecánica de Fluidos I", requisitos: ["fis2"], semestre: 3, color: "rojo" },
   { id: "termTec", nombre: "Termodinámica Técnica", requisitos: ["quiGen"], semestre: 3, color: "rojo" },
 
-  { id: "circ1", nombre: "Circuitos Eléctricos I", requisitos: ["alg2"], semestre: 4, color: "azul" },
+  { id: "circ1", nombre: "Circuitos Eléctricos I", requisitos: ["fis3"], semestre: 4, color: "azul" },
   { id: "elec1", nombre: "Electrónica I", requisitos: ["fis3"], semestre: 4, color: "azul" },
   { id: "transfInt", nombre: "Transformadas Integrales", requisitos: ["varComp"], semestre: 4, color: "azul" },
   { id: "mecFab", nombre: "Mecánica de Fabricación", requisitos: ["mecTec"], semestre: 4, color: "azul" },
