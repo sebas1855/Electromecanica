@@ -72,6 +72,14 @@ const materias = [
   { id: "grad2", nombre: "Graduación II", requisitos: ["grad1"], semestre: 10, color: "blanco" }
 ];
 
+// El resto del código (progreso, eventos, renderizado, restauración, etc.)
+// es igual al que te pasé antes y ya está adaptado con:
+// - Lógica de contar 1 electiva por grupo
+// - LocalStorage
+// - Desbloqueo automático
+// - Reversión
+
+
 
 
 //  Asegúrate de que este bloque comience con todas las materias como en la versión corregida
@@ -114,7 +122,7 @@ function actualizarProgreso() {
 
   progresoBox.textContent = `Progreso: ${progreso} de ${totalSinElectivas} materias aprobadas (${porcentaje}%)`;
 
-  if (porcentaje >= 75) {
+  if (porcentaje >= 70) {
     const pract1Btn = document.getElementById("pract1");
     if (pract1Btn) pract1Btn.classList.remove("bloqueada");
   }
